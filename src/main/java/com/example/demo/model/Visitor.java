@@ -3,9 +3,8 @@ package com.example.demo.model;
 public class Visitor {
 
     private Long id;
-    private String name;
-    private String email;
-    private String phone;
+    private String fullName;
+    private String idProofNumber;
 
     public Visitor() {
     }
@@ -18,27 +17,19 @@ public class Visitor {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getIdProofNumber() {
+        return idProofNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setIdProofNumber(String idProofNumber) {
+        this.idProofNumber = idProofNumber;
     }
 }

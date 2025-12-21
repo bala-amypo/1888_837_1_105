@@ -3,9 +3,8 @@ package com.example.demo.model;
 public class Host {
 
     private Long id;
-    private String name;
-    private String email;
-    private String department;
+    private String hostName;
+    private String phone;
 
     public Host() {
     }
@@ -18,27 +17,19 @@ public class Host {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getHostName() {
+        return hostName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
