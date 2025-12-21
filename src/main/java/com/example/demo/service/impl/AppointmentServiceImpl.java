@@ -1,16 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.service.AppointmentService;
 import org.springframework.stereotype.Service;
-import com.example.demo.repository.AppointmentRepository;
-import com.example.demo.repository.VisitorRepository;
-import com.example.demo.repository.HostRepository;
 
 @Service
-public class AppointmentServiceImpl {
-
-    public AppointmentServiceImpl(
-            AppointmentRepository appointmentRepository,
-            VisitorRepository visitorRepository,
-            HostRepository hostRepository
-    ) {}
+public class AppointmentServiceImpl implements AppointmentService {
 }

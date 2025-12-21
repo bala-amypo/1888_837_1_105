@@ -1,14 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.service.HostService;
 import org.springframework.stereotype.Service;
-import com.example.demo.repository.HostRepository;
 
 @Service
-public class HostServiceImpl {
-
-    private final HostRepository hostRepository;
-
-    public HostServiceImpl(HostRepository hostRepository) {
-        this.hostRepository = hostRepository;
-    }
+public class HostServiceImpl implements HostService {
 }
