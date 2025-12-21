@@ -8,4 +8,5 @@ import java.util.List;
 public interface VisitLogRepository extends JpaRepository<VisitLog, Long> {
 
     List<VisitLog> findByCheckOutTimeIsNull();
+
 }

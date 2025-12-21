@@ -1,17 +1,5 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.entity.AlertNotification;
-import com.example.demo.entity.VisitLog;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.AlertNotificationRepository;
-import com.example.demo.repository.VisitLogRepository;
-import com.example.demo.service.AlertNotificationService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
-public class AlertNotificationServiceImpl implements AlertNotificationService {
+public class AlertNotificationServiceImpl {
 
     private final AlertNotificationRepository alertRepository;
     private final VisitLogRepository visitLogRepository;
@@ -22,32 +10,18 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
         this.visitLogRepository = visitLogRepository;
     }
 
-    @Override
-    public AlertNotification sendAlert(Long visitLogId) {
-
-        if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
+    public AlertNotification send(Long visitLogId) {
+        if (alertRepository.findByVisitLogId(visitLogId).isPresent())
             throw new IllegalArgumentException("Alert already sent");
-        }
 
         VisitLog log = visitLogRepository.findById(visitLogId)
-                .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
 
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(log);
         alert.setSentTo(log.getHost().getEmail());
-        alert.setAlertMessage("Visitor has arrived");
+        alert.setAlertMessage("Visitor arrived");
 
         return alertRepository.save(alert);
-    }
-
-    @Override
-    public AlertNotification getAlert(Long id) {
-        return alertRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
-    }
-
-    @Override
-    public List<AlertNotification> getAllAlerts() {
-        return alertRepository.findAll();
     }
 }
