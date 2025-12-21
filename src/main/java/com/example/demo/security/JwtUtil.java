@@ -1,47 +1,45 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
 
-    // ⚠️ field names MUST be exactly these
-    private String secret = "mysecretkeymysecretkeymysecretkey12";
-    private Long jwtExpirationMs = 86400000L;
-
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
-    }
+    // ⚠ REQUIRED FIELD NAMES (tests inject via reflection)
+    private String secret = "ThisIsASecretKeyForJwtAuthentication123456";
+    private Long jwtExpirationMs = 86400000L; // 1 day
 
     public String generateToken(String username, String role, Long userId, String email) {
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
-                .claim("userId", userId)
-                .claim("email", email)
+                .addClaims(Map.of(
+                        "role", role,
+                        "userId", userId,
+                        "email", email
+                ))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
     public Claims validateAndGetClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
+        return Jwts.parser()
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
+
         String header = request.getHeader("Authorization");
+
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
