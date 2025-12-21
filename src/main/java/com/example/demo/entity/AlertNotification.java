@@ -20,8 +20,10 @@ public class AlertNotification {
 
     @PrePersist
     void sent() {
-        this.sentAt = LocalDateTime.now();
+        sentAt = LocalDateTime.now();
     }
 
-    // getters and setters
+    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
+    public void setSentTo(String sentTo) { this.sentTo = sentTo; }
+    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
 }

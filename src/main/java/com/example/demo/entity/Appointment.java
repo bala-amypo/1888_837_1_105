@@ -21,5 +21,12 @@ public class Appointment {
     private String purpose;
     private String status = "SCHEDULED";
 
-    // getters and setters
+    public Long getId() { return id; }
+    public LocalDate getAppointmentDate() { return appointmentDate; }
+    public void setAppointmentDate(LocalDate appointmentDate) { this.appointmentDate = appointmentDate; }
+    public String getPurpose() { return purpose; }
+    public void setPurpose(String purpose) { this.purpose = purpose; }
+    public void setVisitor(Visitor visitor) { this.visitor = visitor; }
+    public void setHost(Host host) { this.host = host; }
+    public void setStatus(String status) { this.status = status; }
 }

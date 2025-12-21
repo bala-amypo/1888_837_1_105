@@ -15,13 +15,15 @@ public class User {
     private String email;
     private String password;
     private String role = "USER";
-
     private LocalDateTime createdAt;
 
     @PrePersist
     void created() {
-        this.createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 
-    // getters and setters
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
+    public String getRole() { return role; }
+    public void setPassword(String password) { this.password = password; }
 }
