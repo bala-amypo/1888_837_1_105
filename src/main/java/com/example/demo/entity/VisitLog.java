@@ -16,8 +16,12 @@ public class VisitLog {
     @ManyToOne
     private Host host;
 
-    private LocalDateTime checkIn;
-    private LocalDateTime checkOut;
+    private String purpose;
+    private boolean accessGranted;
+    private boolean alertSent;
+
+    private LocalDateTime checkInTime;
+    private LocalDateTime checkOutTime;
 
     public Long getId() {
         return id;
@@ -31,12 +35,24 @@ public class VisitLog {
         return host;
     }
 
-    public LocalDateTime getCheckIn() {
-        return checkIn;
+    public String getPurpose() {
+        return purpose;
     }
 
-    public LocalDateTime getCheckOut() {
-        return checkOut;
+    public boolean isAccessGranted() {
+        return accessGranted;
+    }
+
+    public boolean isAlertSent() {
+        return alertSent;
+    }
+
+    public LocalDateTime getCheckInTime() {
+        return checkInTime;
+    }
+
+    public LocalDateTime getCheckOutTime() {
+        return checkOutTime;
     }
 
     public void setId(Long id) {
@@ -51,11 +67,23 @@ public class VisitLog {
         this.host = host;
     }
 
-    public void setCheckIn(LocalDateTime checkIn) {
-        this.checkIn = checkIn;
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 
-    public void setCheckOut(LocalDateTime checkOut) {
-        this.checkOut = checkOut;
+    public void setAccessGranted(boolean accessGranted) {
+        this.accessGranted = accessGranted;
+    }
+
+    public void setAlertSent(boolean alertSent) {
+        this.alertSent = alertSent;
+    }
+
+    public void setCheckInTime(LocalDateTime checkInTime) {
+        this.checkInTime = checkInTime;
+    }
+
+    public void setCheckOutTime(LocalDateTime checkOutTime) {
+        this.checkOutTime = checkOutTime;
     }
 }

@@ -9,7 +9,8 @@ public class AlertNotification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
+    private String sentTo;
+    private String alertMessage;
 
     @ManyToOne
     private VisitLog visitLog;
@@ -18,8 +19,12 @@ public class AlertNotification {
         return id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getSentTo() {
+        return sentTo;
+    }
+
+    public String getAlertMessage() {
+        return alertMessage;
     }
 
     public VisitLog getVisitLog() {
@@ -30,8 +35,12 @@ public class AlertNotification {
         this.id = id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setSentTo(String sentTo) {
+        this.sentTo = sentTo;
+    }
+
+    public void setAlertMessage(String alertMessage) {
+        this.alertMessage = alertMessage;
     }
 
     public void setVisitLog(VisitLog visitLog) {
