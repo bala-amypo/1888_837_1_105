@@ -1,47 +1,28 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "hosts", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Host {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String department;
+    private String hostName;
+    private String fullname;
     private String email;
+    private String department;
+    private String phone;
 
-    public Long getId() {
-        return id;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    void created() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    // getters and setters
 }
