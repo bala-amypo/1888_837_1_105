@@ -5,8 +5,7 @@ public class Appointment {
     private Long id;
     private String purpose;
 
-    public Appointment() {
-    }
+    public Appointment() {}
 
     public Long getId() {
         return id;
