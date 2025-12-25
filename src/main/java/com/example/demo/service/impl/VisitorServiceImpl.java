@@ -6,7 +6,7 @@ import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
 
 import java.util.List;
-
+@Service
 public class VisitorServiceImpl implements VisitorService {
 
     // ⚠️ FIELD NAME MUST MATCH TESTCASE

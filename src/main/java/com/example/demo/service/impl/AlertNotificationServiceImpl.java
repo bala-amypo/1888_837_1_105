@@ -8,7 +8,7 @@ import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.AlertNotificationService;
 
 import java.util.List;
-
+@Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
     // ⚠️ REQUIRED FIELD NAMES

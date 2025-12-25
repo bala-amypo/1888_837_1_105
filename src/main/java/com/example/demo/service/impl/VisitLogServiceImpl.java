@@ -11,7 +11,7 @@ import com.example.demo.service.VisitLogService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Service
 public class VisitLogServiceImpl implements VisitLogService {
 
     // ⚠️ REQUIRED FIELD NAMES

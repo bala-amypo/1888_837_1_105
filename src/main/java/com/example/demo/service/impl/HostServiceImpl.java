@@ -6,7 +6,7 @@ import com.example.demo.repository.HostRepository;
 import com.example.demo.service.HostService;
 
 import java.util.List;
-
+@Service
 public class HostServiceImpl implements HostService {
 
     // ⚠️ REQUIRED FIELD NAME
