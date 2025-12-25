@@ -1,16 +1,33 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "alert_notifications")
+@Getter
+@Setter
 public class AlertNotification {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public AlertNotification() {}
+    @OneToOne
+    @JoinColumn(name = "visit_log_id", unique = true)
+    private VisitLog visitLog;
 
-    public Long getId() {
-        return id;
-    }
+    private String sentTo;
 
-    public void setId(Long id) {
-        this.id = id;
+    private String alertMessage;
+
+    private LocalDateTime sentAt;
+
+    @PrePersist
+    public void onSend() {
+        this.sentAt = LocalDateTime.now();
     }
 }
