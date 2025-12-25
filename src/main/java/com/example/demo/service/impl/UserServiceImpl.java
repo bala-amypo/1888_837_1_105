@@ -11,25 +11,25 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository repo;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UserRepository repo) {
+        this.repo = repo;
     }
 
     @Override
     public User createUser(User user) {
-        return userRepository.save(user);
+        return repo.save(user);
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id)
+        return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return repo.findAll();
     }
 }

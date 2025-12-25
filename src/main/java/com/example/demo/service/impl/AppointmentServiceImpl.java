@@ -1,61 +1,33 @@
 package com.example.demo.serviceimpl;
 
-import com.example.demo.entity.*;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.*;
+import com.example.demo.entity.Appointment;
+import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.service.AppointmentService;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class AppointmentServiceImpl implements AppointmentService {
 
-    private AppointmentRepository appointmentRepository;
-    private VisitorRepository visitorRepository;
-    private HostRepository hostRepository;
+    private final AppointmentRepository repo;
 
-    public AppointmentServiceImpl() {}
-
-    public AppointmentServiceImpl(AppointmentRepository a,
-                                  VisitorRepository v,
-                                  HostRepository h) {
-        this.appointmentRepository = a;
-        this.visitorRepository = v;
-        this.hostRepository = h;
+    public AppointmentServiceImpl(AppointmentRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public Appointment createAppointment(Long visitorId, Long hostId, Appointment ap) {
-
-        if (ap.getAppointmentDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("appointmentDate cannot be past");
-        }
-
-        Visitor v = visitorRepository.findById(visitorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
-        Host h = hostRepository.findById(hostId)
-                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
-
-        ap.setVisitor(v);
-        ap.setHost(h);
-        ap.setStatus("SCHEDULED");
-
-        return appointmentRepository.save(ap);
+    public Appointment createAppointment(Appointment appointment) {
+        return repo.save(appointment);
     }
 
     @Override
-    public Appointment getAppointment(Long id) {
-        return appointmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
+    public List<Appointment> getAppointmentsByHost(Long hostId) {
+        return repo.findByHostId(hostId);
     }
 
     @Override
-    public List<Appointment> getAppointmentsForHost(Long id) {
-        return appointmentRepository.findByHostId(id);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsForVisitor(Long id) {
-        return appointmentRepository.findByVisitorId(id);
+    public List<Appointment> getAppointmentsByVisitor(Long visitorId) {
+        return repo.findByVisitorId(visitorId);
     }
 }
