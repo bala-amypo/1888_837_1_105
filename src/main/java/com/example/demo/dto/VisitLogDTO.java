@@ -1,7 +1,12 @@
 package com.example.demo.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class VisitLogDTO {
 
     private Long id;
@@ -11,19 +16,4 @@ public class VisitLogDTO {
     private LocalDateTime checkOutTime;
     private String purpose;
     private Boolean accessGranted;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getVisitorId() { return visitorId; }
-    public void setVisitorId(Long visitorId) { this.visitorId = visitorId; }
-    public Long getHostId() { return hostId; }
-    public void setHostId(Long hostId) { this.hostId = hostId; }
-    public LocalDateTime getCheckInTime() { return checkInTime; }
-    public void setCheckInTime(LocalDateTime checkInTime) { this.checkInTime = checkInTime; }
-    public LocalDateTime getCheckOutTime() { return checkOutTime; }
-    public void setCheckOutTime(LocalDateTime checkOutTime) { this.checkOutTime = checkOutTime; }
-    public String getPurpose() { return purpose; }
-    public void setPurpose(String purpose) { this.purpose = purpose; }
-    public Boolean getAccessGranted() { return accessGranted; }
-    public void setAccessGranted(Boolean accessGranted) { this.accessGranted = accessGranted; }
 }
