@@ -9,7 +9,8 @@ public interface VisitorService {
 
     List<Visitor> getAllVisitors();
 
-    Visitor getVisitorById(Long id);
+    // 🔥 ADD THIS METHOD
+    Visitor getVisitor(Long id);
 
     Visitor updateVisitor(Long id, Visitor visitor);
 

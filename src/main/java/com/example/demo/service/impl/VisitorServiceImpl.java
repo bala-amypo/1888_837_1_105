@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // 🔥 THIS IS WHAT FIXES YOUR ERROR
+@Service
 public class VisitorServiceImpl implements VisitorService {
 
     private final VisitorRepository visitorRepository;
@@ -26,15 +26,16 @@ public class VisitorServiceImpl implements VisitorService {
         return visitorRepository.findAll();
     }
 
+    // 🔥 IMPLEMENTATION ADDED
     @Override
-    public Visitor getVisitorById(Long id) {
+    public Visitor getVisitor(Long id) {
         return visitorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Visitor not found"));
     }
 
     @Override
     public Visitor updateVisitor(Long id, Visitor visitor) {
-        Visitor existing = getVisitorById(id);
+        Visitor existing = getVisitor(id);
         existing.setFullName(visitor.getFullName());
         existing.setEmail(visitor.getEmail());
         existing.setPhone(visitor.getPhone());
