@@ -1,41 +1,24 @@
-package com.example.demo.service.impl;
+package com.example.demo.serviceimpl;
 
+import com.example.demo.entity.Host;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Host;
 import com.example.demo.repository.HostRepository;
 import com.example.demo.service.HostService;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-@Service
 public class HostServiceImpl implements HostService {
 
-    // ⚠️ REQUIRED FIELD NAME
     private HostRepository hostRepository;
 
-    // ✔ EMPTY constructor needed by tests
-    public HostServiceImpl() {
-    }
-
-    // ✔ Constructor injection (used in real app)
-    public HostServiceImpl(HostRepository hostRepository) {
-        this.hostRepository = hostRepository;
-    }
+    public HostServiceImpl() {}
 
     @Override
-    public Host createHost(Host host) {
-        return hostRepository.save(host);
+    public Host createHost(Host h) {
+        return hostRepository.save(h);
     }
 
     @Override
     public Host getHost(Long id) {
         return hostRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Host not found"));
-    }
-
-    @Override
-    public List<Host> getAllHosts() {
-        return hostRepository.findAll();
+                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
     }
 }
