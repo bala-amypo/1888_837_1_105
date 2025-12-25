@@ -2,16 +2,18 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component   // IMPORTANT
 public class JwtUtil {
 
+    // REQUIRED by testcases (field names must match)
     private String secret;
     private Long jwtExpirationMs;
 
     public String generateToken(String username, String role, Long userId, String email) {
-
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
