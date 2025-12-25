@@ -1,56 +1,35 @@
-package com.example.demo.service.impl;
+package com.example.demo.serviceimpl;
 
-
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
-    public UserServiceImpl(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            JwtUtil jwtUtil
-    ) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
     }
 
     @Override
-    public User register(RegisterRequest request) {
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public String login(AuthRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        return jwtUtil.generateToken(user.getUsername());
     }
 
     @Override
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
