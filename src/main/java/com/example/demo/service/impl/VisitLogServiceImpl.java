@@ -8,6 +8,7 @@ import com.example.demo.repository.HostRepository;
 import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitLogService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;

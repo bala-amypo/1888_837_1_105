@@ -4,6 +4,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Visitor;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
