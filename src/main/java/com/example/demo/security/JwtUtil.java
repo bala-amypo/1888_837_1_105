@@ -1,27 +1,37 @@
 package com.example.demo.security;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
-@Component
+import java.security.Key;
+import java.util.Date;
+
 public class JwtUtil {
 
-    // Dummy token generator
+    private String secret;
+    private Long jwtExpirationMs;
+
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
     public String generateToken(String username, String role, Long userId, String email) {
-        return "dummy-token-" + username;
+
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("role", role)
+                .claim("userId", userId)
+                .claim("email", email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    // Dummy extractor
-    public String extractUsername(String token) {
-        if (token == null) return null;
-        return token.replace("dummy-token-", "");
-    }
-
-    public String getTokenFromRequest(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
+    public Jws<Claims> validateAndGetClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token);
     }
 }

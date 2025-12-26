@@ -9,7 +9,7 @@ import java.util.List;
 
 public class VisitorServiceImpl implements VisitorService {
 
-    private VisitorRepository visitorRepository;
+    private final VisitorRepository visitorRepository;
 
     public VisitorServiceImpl(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
@@ -23,7 +23,7 @@ public class VisitorServiceImpl implements VisitorService {
     @Override
     public Visitor getVisitor(Long id) {
         return visitorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+                .orElseThrow(() -> new RuntimeException("Visitor not found"));
     }
 
     @Override
