@@ -9,4 +9,8 @@ public interface AlertNotificationService {
     AlertNotification save(AlertNotification alert);
 
     List<AlertNotification> getAllAlerts();
+    
+    AlertNotification sendAlert(Long visitLogId);
+
+    AlertNotification getAlert(Long id);
 }
