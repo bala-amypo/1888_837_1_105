@@ -35,8 +35,9 @@ public class JwtUtil {
     }
 
     public Jws<Claims> validateAndGetClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
+                .build()                    // ✅ REQUIRED
                 .parseClaimsJws(token);
     }
 
