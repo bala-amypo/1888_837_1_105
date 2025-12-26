@@ -1,51 +1,55 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
+@Component
 public class JwtUtil {
 
-    // REQUIRED for reflection in tests
-    private String secret;
-    private Long jwtExpirationMs;
+    private final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
+
+    private final long EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
     public String generateToken(String username, String role, Long userId, String email) {
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
-        claims.put("userId", userId);
-        claims.put("email", email);
-
         return Jwts.builder()
                 .setSubject(username)
-                .setClaims(claims)
+                .claim("role", role)
+                .claim("userId", userId)
+                .claim("email", email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public Jws<Claims> validateAndGetClaims(String token) {
-        return Jwts.parserBuilder()
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token);
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-    public String getTokenFromRequest(jakarta.servlet.http.HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            extractAllClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return null;
     }
 }

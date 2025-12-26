@@ -4,37 +4,60 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "alert_notifications")
 public class AlertNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private VisitLog visitLog;
+    private String message;
 
-    private String sentTo;
-    private String alertMessage;
+    private boolean sent;
+
     private LocalDateTime sentAt;
 
-    @PrePersist
-    public void onSend() {
-        this.sentAt = LocalDateTime.now();
+    @ManyToOne
+    private Visitor visitor;
+
+    public AlertNotification() {}
+
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getMessage() {
+        return message;
+    }
 
-    public VisitLog getVisitLog() { return visitLog; }
-    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
+    public boolean isSent() {
+        return sent;
+    }
 
-    public String getSentTo() { return sentTo; }
-    public void setSentTo(String sentTo) { this.sentTo = sentTo; }
+    public LocalDateTime getSentAt() {
+        return sentAt;
+    }
 
-    public String getAlertMessage() { return alertMessage; }
-    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
+    public Visitor getVisitor() {
+        return visitor;
+    }
 
-    public LocalDateTime getSentAt() { return sentAt; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
+    }
+
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
 }
