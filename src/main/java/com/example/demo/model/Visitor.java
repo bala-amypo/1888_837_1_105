@@ -60,4 +60,22 @@ public class Visitor {
     }
 
     public void setIdProofNumber(String idProofNumber) {
-        this.idProofNumber = idProofNumb
+        this.idProofNumber = idProofNumber;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public List<VisitLog> getVisitLogs() {
+        return visitLogs;
+    }
+
+    public void setVisitLogs(List<VisitLog> visitLogs) {
+        this.visitLogs = visitLogs;
+    }
+}
