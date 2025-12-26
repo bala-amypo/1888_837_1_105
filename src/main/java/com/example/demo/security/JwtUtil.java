@@ -1,63 +1,68 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
-    private final long EXPIRATION = 1000 * 60 * 60 * 10;
+    // MUST be injected using ReflectionTestUtils in tests
+    private String secret;
+
+    // MUST be injected using ReflectionTestUtils in tests
+    private Long jwtExpirationMs;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    // ----------------------------------------------------
+    // Generate JWT Token
+    // ----------------------------------------------------
     public String generateToken(String username, String role, Long userId, String email) {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        claims.put("userId", userId);
+        claims.put("email", email);
+
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(username)
-                .claim("role", role)
-                .claim("userId", userId)
-                .claim("email", email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
+    // ----------------------------------------------------
+    // Validate & Extract Claims
+    // ----------------------------------------------------
+    public Jws<Claims> validateAndGetClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token);
+    }
+
+    // ----------------------------------------------------
+    // Extract JWT from Authorization Header
+    // ----------------------------------------------------
     public String getTokenFromRequest(HttpServletRequest request) {
+
         String header = request.getHeader("Authorization");
+
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
+
         return null;
-    }
-
-    public Claims validateAndGetClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            validateAndGetClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public String extractUsername(String token) {
-        return validateAndGetClaims(token).getSubject();
     }
 }
