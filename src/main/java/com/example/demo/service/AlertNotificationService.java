@@ -4,10 +4,6 @@ import com.example.demo.entity.AlertNotification;
 import java.util.List;
 
 public interface AlertNotificationService {
-
-    AlertNotification sendAlert(Long visitLogId);
-
-    AlertNotification getAlert(Long id);
-
+    AlertNotification createAlert(AlertNotification alert);
     List<AlertNotification> getAllAlerts();
 }

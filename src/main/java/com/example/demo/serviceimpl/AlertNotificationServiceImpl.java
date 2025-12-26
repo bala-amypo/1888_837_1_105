@@ -1,56 +1,31 @@
-package com.example.demo.service.impl;
+package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.AlertNotification;
-import com.example.demo.entity.VisitLog;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AlertNotificationRepository;
-import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.AlertNotificationService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
-    private final AlertNotificationRepository alertRepository;
-    private final VisitLogRepository visitLogRepository;
+    private final AlertNotificationRepository repository;
 
-    public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
-                                        VisitLogRepository visitLogRepository) {
-        this.alertRepository = alertRepository;
-        this.visitLogRepository = visitLogRepository;
+    public AlertNotificationServiceImpl(AlertNotificationRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public AlertNotification sendAlert(Long visitLogId) {
-
-        VisitLog log = visitLogRepository.findById(visitLogId)
-                .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
-
-        if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
-            throw new IllegalArgumentException("Alert already sent");
-        }
-
-        AlertNotification alert = new AlertNotification();
-        alert.setVisitLog(log);
-        alert.setSentTo(log.getHost().getEmail());
-        alert.setAlertMessage("Visitor has arrived");
+    public AlertNotification createAlert(AlertNotification alert) {
+        alert.setSent(true);
         alert.setSentAt(LocalDateTime.now());
-
-        log.setAlertSent(true);
-        visitLogRepository.save(log);
-
-        return alertRepository.save(alert);
-    }
-
-    @Override
-    public AlertNotification getAlert(Long id) {
-        return alertRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+        return repository.save(alert);
     }
 
     @Override
     public List<AlertNotification> getAllAlerts() {
-        return alertRepository.findAll();
+        return repository.findAll();
     }
 }
