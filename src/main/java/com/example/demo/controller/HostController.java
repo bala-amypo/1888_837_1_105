@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hosts")
+@RequestMapping("/api/hosts")
 public class HostController {
 
     private final HostService hostService;
@@ -24,5 +24,10 @@ public class HostController {
     @GetMapping
     public List<Host> getAll() {
         return hostService.getAllHosts();
+    }
+
+    @GetMapping("/{id}")
+    public Host get(@PathVariable Long id) {
+        return hostService.getHost(id);
     }
 }
