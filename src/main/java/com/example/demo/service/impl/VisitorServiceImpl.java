@@ -1,16 +1,15 @@
-package com.example.demo.serviceimpl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Visitor;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class VisitorServiceImpl implements VisitorService {
 
-    private final VisitorRepository visitorRepository;
+    private VisitorRepository visitorRepository;
 
     public VisitorServiceImpl(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
@@ -19,6 +18,12 @@ public class VisitorServiceImpl implements VisitorService {
     @Override
     public Visitor createVisitor(Visitor visitor) {
         return visitorRepository.save(visitor);
+    }
+
+    @Override
+    public Visitor getVisitor(Long id) {
+        return visitorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
     }
 
     @Override
