@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -14,7 +15,7 @@ public class JwtUtil {
 
     private final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
 
-    private final long EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
+    private final long EXPIRATION = 1000 * 60 * 60 * 10;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
@@ -32,7 +33,15 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims extractAllClaims(String token) {
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
+    }
+
+    public Claims validateAndGetClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -41,15 +50,6 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return validateAndGetClaims(token).getSubject();
     }
 }

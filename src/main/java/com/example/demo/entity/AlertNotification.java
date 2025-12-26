@@ -10,14 +10,16 @@ public class AlertNotification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
+    private String alertMessage;
+
+    private String sentTo;
 
     private boolean sent;
 
     private LocalDateTime sentAt;
 
     @ManyToOne
-    private Visitor visitor;
+    private VisitLog visitLog;
 
     public AlertNotification() {}
 
@@ -25,8 +27,12 @@ public class AlertNotification {
         return id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getAlertMessage() {
+        return alertMessage;
+    }
+
+    public String getSentTo() {
+        return sentTo;
     }
 
     public boolean isSent() {
@@ -37,16 +43,20 @@ public class AlertNotification {
         return sentAt;
     }
 
-    public Visitor getVisitor() {
-        return visitor;
+    public VisitLog getVisitLog() {
+        return visitLog;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setAlertMessage(String alertMessage) {
+        this.alertMessage = alertMessage;
+    }
+
+    public void setSentTo(String sentTo) {
+        this.sentTo = sentTo;
     }
 
     public void setSent(boolean sent) {
@@ -57,7 +67,7 @@ public class AlertNotification {
         this.sentAt = sentAt;
     }
 
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
+    public void setVisitLog(VisitLog visitLog) {
+        this.visitLog = visitLog;
     }
 }
