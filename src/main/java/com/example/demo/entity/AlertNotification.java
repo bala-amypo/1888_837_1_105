@@ -4,70 +4,38 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "alert_notifications")
 public class AlertNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String alertMessage;
+    @OneToOne
+    private VisitLog visitLog;
 
     private String sentTo;
 
-    private boolean sent;
+    private String alertMessage;
 
     private LocalDateTime sentAt;
 
-    @ManyToOne
-    private VisitLog visitLog;
-
-    public AlertNotification() {}
-
-    public Long getId() {
-        return id;
+    @PrePersist
+    public void onSend() {
+        this.sentAt = LocalDateTime.now();
     }
 
-    public String getAlertMessage() {
-        return alertMessage;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getSentTo() {
-        return sentTo;
-    }
+    public VisitLog getVisitLog() { return visitLog; }
+    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
 
-    public boolean isSent() {
-        return sent;
-    }
+    public String getSentTo() { return sentTo; }
+    public void setSentTo(String sentTo) { this.sentTo = sentTo; }
 
-    public LocalDateTime getSentAt() {
-        return sentAt;
-    }
+    public String getAlertMessage() { return alertMessage; }
+    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
 
-    public VisitLog getVisitLog() {
-        return visitLog;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAlertMessage(String alertMessage) {
-        this.alertMessage = alertMessage;
-    }
-
-    public void setSentTo(String sentTo) {
-        this.sentTo = sentTo;
-    }
-
-    public void setSent(boolean sent) {
-        this.sent = sent;
-    }
-
-    public void setSentAt(LocalDateTime sentAt) {
-        this.sentAt = sentAt;
-    }
-
-    public void setVisitLog(VisitLog visitLog) {
-        this.visitLog = visitLog;
-    }
+    public LocalDateTime getSentAt() { return sentAt; }
 }
