@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service   // ✅ THIS LINE FIXES THE ERROR
+@Service
 public class VisitLogServiceImpl implements VisitLogService {
 
     private final VisitLogRepository visitLogRepository;
@@ -31,6 +31,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog checkInVisitor(Long visitorId, Long hostId, String purpose) {
+
         Visitor visitor = visitorRepository.findById(visitorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
 
@@ -71,4 +72,3 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
     }
 }
-    

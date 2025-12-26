@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service   // ✅ THIS WAS MISSING
+@Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
     private final AlertNotificationRepository alertRepository;
@@ -25,7 +25,6 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
 
     @Override
     public AlertNotification sendAlert(Long visitLogId) {
-
         VisitLog visitLog = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
