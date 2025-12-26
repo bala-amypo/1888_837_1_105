@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/appointments")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
@@ -16,27 +16,13 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping("/{visitorId}/{hostId}")
-    public Appointment create(
-            @PathVariable Long visitorId,
-            @PathVariable Long hostId,
-            @RequestBody Appointment appointment) {
-
-        return appointmentService.createAppointment(visitorId, hostId, appointment);
+    @PostMapping
+    public Appointment create(@RequestBody Appointment appointment) {
+        return appointmentService.createAppointment(appointment);
     }
 
-    @GetMapping("/host/{hostId}")
-    public List<Appointment> getForHost(@PathVariable Long hostId) {
-        return appointmentService.getAppointmentsForHost(hostId);
-    }
-
-    @GetMapping("/visitor/{visitorId}")
-    public List<Appointment> getForVisitor(@PathVariable Long visitorId) {
-        return appointmentService.getAppointmentsForVisitor(visitorId);
-    }
-
-    @GetMapping("/{id}")
-    public Appointment getById(@PathVariable Long id) {
-        return appointmentService.getAppointment(id);
+    @GetMapping
+    public List<Appointment> getAll() {
+        return appointmentService.getAllAppointments();
     }
 }
