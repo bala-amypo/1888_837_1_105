@@ -25,11 +25,13 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // ✅ REQUIRED FOR TESTS
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
+    // ✅ LOGIN ENDPOINT
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
