@@ -1,10 +1,10 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,12 +37,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null) {
             try {
-                var claims = jwtUtil.validateAndGetClaims(token);
-                String email = claims.getBody().get("email", String.class);
+                Claims claims = jwtUtil.validateAndGetClaims(token);
+                String email = claims.get("email", String.class);
 
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    UserDetails userDetails =
+                            userDetailsService.loadUserByUsername(email);
 
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
@@ -59,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception e) {
-                // Invalid token → ignore and continue (no auth)
+                // Invalid token -> ignore, request continues unauthenticated
             }
         }
 

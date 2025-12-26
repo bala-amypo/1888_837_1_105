@@ -36,6 +36,7 @@ public class JwtUtil {
                 .compact();
     }
 
+    // ✅ Correct for jjwt 0.9.x
     public Claims validateAndGetClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(getSigningKey())
