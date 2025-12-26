@@ -1,42 +1,20 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
 
-    private String secret = "mySecretKey12345";
-    private long jwtExpirationMs = 86400000;
-
+    // Dummy token generator
     public String generateToken(String username, String role, Long userId, String email) {
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
-        claims.put("userId", userId);
-        claims.put("email", email);
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        return "dummy-token-" + username;
     }
 
-    public Claims validateAndGetClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+    // Dummy extractor
+    public String extractUsername(String token) {
+        if (token == null) return null;
+        return token.replace("dummy-token-", "");
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
