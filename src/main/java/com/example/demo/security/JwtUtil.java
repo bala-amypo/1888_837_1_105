@@ -14,7 +14,6 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
-
     private final long EXPIRATION = 1000 * 60 * 60 * 10;
 
     private Key getSigningKey() {
@@ -47,6 +46,15 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            validateAndGetClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public String extractUsername(String token) {
