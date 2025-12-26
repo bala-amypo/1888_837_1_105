@@ -1,6 +1,8 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +36,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Jws<Claims> validateAndGetClaims(String token) {
-        return Jwts.parserBuilder()
+    public Claims validateAndGetClaims(String token) {
+        return Jwts.parser()
                 .setSigningKey(getSigningKey())
-                .build()                    // ✅ REQUIRED
-                .parseClaimsJws(token);
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
