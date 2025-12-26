@@ -28,17 +28,44 @@ public class AlertNotification {
     }
 
     // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() { 
+        return id; 
+    }
 
-    public VisitLog getVisitLog() { return visitLog; }
-    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
+    public void setId(Long id) { 
+        this.id = id; 
+    }
 
-    public String getSentTo() { return sentTo; }
-    public void setSentTo(String sentTo) { this.sentTo = sentTo; }
+    public VisitLog getVisitLog() { 
+        return visitLog; 
+    }
 
-    public String getAlertMessage() { return alertMessage; }
-    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
+    public void setVisitLog(VisitLog visitLog) { 
+        this.visitLog = visitLog; 
+    }
 
-    public LocalDateTime getSentAt() { return sentAt; }
+    public String getSentTo() { 
+        return sentTo; 
+    }
+
+    public void setSentTo(String sentTo) { 
+        this.sentTo = sentTo; 
+    }
+
+    public String getAlertMessage() { 
+        return alertMessage; 
+    }
+
+    public void setAlertMessage(String alertMessage) { 
+        this.alertMessage = alertMessage; 
+    }
+
+    public LocalDateTime getSentAt() { 
+        return sentAt; 
+    }
+
+    // ✅ MISSING METHOD — NOW FIXED
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
+    }
 }
