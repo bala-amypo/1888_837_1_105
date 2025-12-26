@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Host;
-
 import java.util.List;
 
 public interface HostService {
@@ -11,4 +10,7 @@ public interface HostService {
     Host getHost(Long id);
 
     List<Host> getAllHosts();
+
+    // ✅ ADD THIS METHOD
+    Host getHostByEmail(String email);
 }
