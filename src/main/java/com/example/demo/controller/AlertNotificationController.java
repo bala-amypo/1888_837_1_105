@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AlertNotification;
+import com.example.demo.model.AlertNotification;
 import com.example.demo.service.AlertNotificationService;
 import org.springframework.web.bind.annotation.*;
 
