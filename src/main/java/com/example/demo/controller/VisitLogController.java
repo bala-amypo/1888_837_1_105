@@ -10,31 +10,31 @@ import java.util.List;
 @RequestMapping("/api/visits")
 public class VisitLogController {
 
-    private final VisitLogService visitLogService;
+    private final VisitLogService service;
 
-    public VisitLogController(VisitLogService visitLogService) {
-        this.visitLogService = visitLogService;
+    public VisitLogController(VisitLogService service) {
+        this.service = service;
     }
 
     @PostMapping("/checkin/{visitorId}/{hostId}")
     public VisitLog checkIn(@PathVariable Long visitorId,
                             @PathVariable Long hostId,
-                            @RequestBody String purpose) {
-        return visitLogService.checkInVisitor(visitorId, hostId, purpose);
+                            @RequestBody(required = false) String purpose) {
+        return service.checkInVisitor(visitorId, hostId, purpose);
     }
 
     @PostMapping("/checkout/{visitLogId}")
     public VisitLog checkOut(@PathVariable Long visitLogId) {
-        return visitLogService.checkOutVisitor(visitLogId);
+        return service.checkOutVisitor(visitLogId);
     }
 
     @GetMapping("/active")
     public List<VisitLog> active() {
-        return visitLogService.getActiveVisits();
+        return service.getActiveVisits();
     }
 
     @GetMapping("/{id}")
     public VisitLog get(@PathVariable Long id) {
-        return visitLogService.getVisitLog(id);
+        return service.getVisitLog(id);
     }
 }

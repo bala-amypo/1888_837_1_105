@@ -1,6 +1,9 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -16,7 +19,6 @@ public class JwtUtil {
     }
 
     public String generateToken(String username, String role, Long userId, String email) {
-
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)

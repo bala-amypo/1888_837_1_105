@@ -10,24 +10,24 @@ import java.util.List;
 @RequestMapping("/api/alerts")
 public class AlertNotificationController {
 
-    private final AlertNotificationService alertService;
+    private final AlertNotificationService service;
 
-    public AlertNotificationController(AlertNotificationService alertService) {
-        this.alertService = alertService;
+    public AlertNotificationController(AlertNotificationService service) {
+        this.service = service;
     }
 
     @PostMapping("/send/{visitLogId}")
     public AlertNotification send(@PathVariable Long visitLogId) {
-        return alertService.sendAlert(visitLogId);
+        return service.sendAlert(visitLogId);
     }
 
     @GetMapping("/{id}")
     public AlertNotification get(@PathVariable Long id) {
-        return alertService.getAlert(id);
+        return service.getAlert(id);
     }
 
     @GetMapping
-    public List<AlertNotification> getAll() {
-        return alertService.getAllAlerts();
+    public List<AlertNotification> all() {
+        return service.getAllAlerts();
     }
 }
