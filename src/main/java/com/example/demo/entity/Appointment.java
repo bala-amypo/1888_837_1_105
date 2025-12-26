@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "appointments")
 public class Appointment {
 
     @Id
@@ -21,6 +22,7 @@ public class Appointment {
     private String status;
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public Visitor getVisitor() { return visitor; }
     public void setVisitor(Visitor visitor) { this.visitor = visitor; }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "visitors")
 public class Visitor {
 
     @Id
@@ -14,8 +15,15 @@ public class Visitor {
     private String email;
     private String phone;
     private String idProofNumber;
-    private LocalDateTime createdAt = LocalDateTime.now();
 
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

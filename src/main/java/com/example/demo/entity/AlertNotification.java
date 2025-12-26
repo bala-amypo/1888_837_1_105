@@ -1,21 +1,34 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "alert_notifications")
 public class AlertNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sentTo;
-    private String alertMessage;
-
     @OneToOne
     private VisitLog visitLog;
 
+    private String sentTo;
+    private String alertMessage;
+    private LocalDateTime sentAt;
+
+    @PrePersist
+    public void onSend() {
+        this.sentAt = LocalDateTime.now();
+    }
+
+    // getters & setters
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public VisitLog getVisitLog() { return visitLog; }
+    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
 
     public String getSentTo() { return sentTo; }
     public void setSentTo(String sentTo) { this.sentTo = sentTo; }
@@ -23,6 +36,5 @@ public class AlertNotification {
     public String getAlertMessage() { return alertMessage; }
     public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
 
-    public VisitLog getVisitLog() { return visitLog; }
-    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
+    public LocalDateTime getSentAt() { return sentAt; }
 }
