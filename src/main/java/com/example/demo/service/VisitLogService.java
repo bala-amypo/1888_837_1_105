@@ -5,9 +5,11 @@ import java.util.List;
 
 public interface VisitLogService {
 
-    VisitLog checkIn(VisitLog visitLog);
+    VisitLog checkInVisitor(Long visitorId, Long hostId, String purpose);
 
-    VisitLog checkOut(Long id);
+    VisitLog checkOutVisitor(Long visitLogId);
 
     List<VisitLog> getActiveVisits();
+
+    VisitLog getVisitLog(Long id);
 }

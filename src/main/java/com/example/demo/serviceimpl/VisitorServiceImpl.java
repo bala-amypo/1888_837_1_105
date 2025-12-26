@@ -1,13 +1,12 @@
-package com.example.demo.serviceimpl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Visitor;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class VisitorServiceImpl implements VisitorService {
 
     private final VisitorRepository visitorRepository;
@@ -22,29 +21,13 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public List<Visitor> getAllVisitors() {
-        return visitorRepository.findAll();
-    }
-
-    // 🔥 IMPLEMENTATION ADDED
-    @Override
     public Visitor getVisitor(Long id) {
         return visitorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Visitor not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
     }
 
     @Override
-    public Visitor updateVisitor(Long id, Visitor visitor) {
-        Visitor existing = getVisitor(id);
-        existing.setFullName(visitor.getFullName());
-        existing.setEmail(visitor.getEmail());
-        existing.setPhone(visitor.getPhone());
-        existing.setIdProofNumber(visitor.getIdProofNumber());
-        return visitorRepository.save(existing);
-    }
-
-    @Override
-    public void deleteVisitor(Long id) {
-        visitorRepository.deleteById(id);
+    public List<Visitor> getAllVisitors() {
+        return visitorRepository.findAll();
     }
 }
