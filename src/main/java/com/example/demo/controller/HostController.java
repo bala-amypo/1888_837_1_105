@@ -1,3 +1,12 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.Host;
+import com.example.demo.service.HostService;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/hosts")
 public class HostController {
@@ -19,7 +28,7 @@ public class HostController {
     }
 
     @GetMapping("/{id}")
-    public Host getHost(@PathVariable Long id) {
+    public Host getHostById(@PathVariable Long id) {
         return hostService.getHostById(id);
     }
 }
