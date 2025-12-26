@@ -2,12 +2,15 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "hosts")
+@Table(name = "hosts", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class Host {
 
     @Id
@@ -19,7 +22,8 @@ public class Host {
 
     private String fullname;
 
-    @Column(unique = true)
+    @Email
+    @NotBlank
     private String email;
 
     @NotBlank
@@ -36,6 +40,7 @@ public class Host {
     @OneToMany(mappedBy = "host")
     private List<VisitLog> visitLogs;
 
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

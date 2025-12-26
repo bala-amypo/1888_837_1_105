@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -12,9 +13,11 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "visitor_id")
     private Visitor visitor;
 
     @ManyToOne
+    @JoinColumn(name = "host_id")
     private Host host;
 
     private LocalDate appointmentDate;
@@ -23,6 +26,7 @@ public class Appointment {
 
     private String status;
 
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

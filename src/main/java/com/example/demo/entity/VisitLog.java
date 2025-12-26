@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,10 +30,10 @@ public class VisitLog {
 
     @PrePersist
     public void onCreate() {
-        if (checkInTime == null)
-            checkInTime = LocalDateTime.now();
+        this.checkInTime = LocalDateTime.now();
     }
 
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
