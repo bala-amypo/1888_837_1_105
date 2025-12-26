@@ -13,12 +13,8 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private String secret;
-    private Long jwtExpirationMs;
-
-    private byte[] getSigningKey() {
-        return secret.getBytes();
-    }
+    private String secret = "mysecretkey123456"; // required
+    private Long jwtExpirationMs = 86400000L; // 1 day
 
     public String generateToken(String username, String role, Long userId, String email) {
 
@@ -32,14 +28,13 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, getSigningKey())
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
-    // ✅ Correct for jjwt 0.9.x
     public Claims validateAndGetClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
     }
