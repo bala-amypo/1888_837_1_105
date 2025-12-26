@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/visit-logs")
+@RequestMapping("/api/visits")
 public class VisitLogController {
 
     private final VisitLogService visitLogService;
@@ -16,18 +16,27 @@ public class VisitLogController {
         this.visitLogService = visitLogService;
     }
 
-    @PostMapping("/check-in")
-    public VisitLog checkIn(@RequestBody VisitLog visitLog) {
-        return visitLogService.checkIn(visitLog);
+    @PostMapping("/checkin/{visitorId}/{hostId}")
+    public VisitLog checkIn(
+            @PathVariable Long visitorId,
+            @PathVariable Long hostId,
+            @RequestParam(required = false) String purpose) {
+
+        return visitLogService.checkInVisitor(visitorId, hostId, purpose);
     }
 
-    @PutMapping("/check-out/{id}")
-    public VisitLog checkOut(@PathVariable Long id) {
-        return visitLogService.checkOut(id);
+    @PostMapping("/checkout/{visitLogId}")
+    public VisitLog checkOut(@PathVariable Long visitLogId) {
+        return visitLogService.checkOutVisitor(visitLogId);
     }
 
     @GetMapping("/active")
-    public List<VisitLog> getActiveVisits() {
+    public List<VisitLog> getActive() {
         return visitLogService.getActiveVisits();
+    }
+
+    @GetMapping("/{id}")
+    public VisitLog getById(@PathVariable Long id) {
+        return visitLogService.getVisitLog(id);
     }
 }

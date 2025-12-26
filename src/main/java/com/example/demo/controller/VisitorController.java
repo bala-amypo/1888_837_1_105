@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/visitors")
+@RequestMapping("/api/visitors")
 public class VisitorController {
 
     private final VisitorService visitorService;
@@ -17,17 +17,17 @@ public class VisitorController {
     }
 
     @PostMapping
-    public Visitor createVisitor(@RequestBody Visitor visitor) {
+    public Visitor create(@RequestBody Visitor visitor) {
         return visitorService.createVisitor(visitor);
     }
 
-    @GetMapping("/{id}")
-    public Visitor getVisitor(@PathVariable Long id) {
-        return visitorService.getVisitor(id);
+    @GetMapping
+    public List<Visitor> getAll() {
+        return visitorService.getAllVisitors();
     }
 
-    @GetMapping
-    public List<Visitor> getAllVisitors() {
-        return visitorService.getAllVisitors();
+    @GetMapping("/{id}")
+    public Visitor getById(@PathVariable Long id) {
+        return visitorService.getVisitor(id);
     }
 }
