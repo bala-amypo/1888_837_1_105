@@ -17,11 +17,16 @@ public class VisitLog {
     private Host host;
 
     private String purpose;
-    private boolean accessGranted;
+
     private LocalDateTime checkInTime;
+
     private LocalDateTime checkOutTime;
 
+    private boolean accessGranted;
+
     public VisitLog() {}
+
+    // ---------- Getters & Setters ----------
 
     public Long getId() {
         return id;
@@ -55,14 +60,6 @@ public class VisitLog {
         this.purpose = purpose;
     }
 
-    public boolean isAccessGranted() {
-        return accessGranted;
-    }
-
-    public void setAccessGranted(boolean accessGranted) {
-        this.accessGranted = accessGranted;
-    }
-
     public LocalDateTime getCheckInTime() {
         return checkInTime;
     }
@@ -77,5 +74,13 @@ public class VisitLog {
 
     public void setCheckOutTime(LocalDateTime checkOutTime) {
         this.checkOutTime = checkOutTime;
+    }
+
+    public boolean getAccessGranted() {
+        return accessGranted;
+    }
+
+    public void setAccessGranted(boolean accessGranted) {
+        this.accessGranted = accessGranted;
     }
 }
