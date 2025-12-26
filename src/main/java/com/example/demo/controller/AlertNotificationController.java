@@ -7,22 +7,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/api/alerts")
 public class AlertNotificationController {
 
-    private final AlertNotificationService service;
+    private final AlertNotificationService alertService;
 
-    public AlertNotificationController(AlertNotificationService service) {
-        this.service = service;
+    public AlertNotificationController(AlertNotificationService alertService) {
+        this.alertService = alertService;
     }
 
-    @PostMapping
-    public AlertNotification create(@RequestBody AlertNotification alert) {
-        return service.createAlert(alert);
+    @PostMapping("/send/{visitLogId}")
+    public AlertNotification send(@PathVariable Long visitLogId) {
+        return alertService.sendAlert(visitLogId);
+    }
+
+    @GetMapping("/{id}")
+    public AlertNotification get(@PathVariable Long id) {
+        return alertService.getAlert(id);
     }
 
     @GetMapping
     public List<AlertNotification> getAll() {
-        return service.getAllAlerts();
+        return alertService.getAllAlerts();
     }
 }
