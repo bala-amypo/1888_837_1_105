@@ -14,8 +14,10 @@ import java.util.List;
 @Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
-    private final AlertNotificationRepository alertRepository;
-    private final VisitLogRepository visitLogRepository;
+    private AlertNotificationRepository alertRepository;
+    private VisitLogRepository visitLogRepository;
+
+    public AlertNotificationServiceImpl() {}
 
     public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
                                         VisitLogRepository visitLogRepository) {
@@ -33,14 +35,14 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
             throw new IllegalStateException("Cannot send alert before check-in");
         }
 
-        if (alertRepository.existsByVisitLog(visitLog)) {
+        if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
             throw new IllegalArgumentException("Duplicate alert");
         }
 
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(visitLog);
+        alert.setSentTo(visitLog.getHost().getEmail());
         alert.setAlertMessage("Visitor arrived");
-        alert.setSent(true);
         alert.setSentAt(LocalDateTime.now());
 
         return alertRepository.save(alert);

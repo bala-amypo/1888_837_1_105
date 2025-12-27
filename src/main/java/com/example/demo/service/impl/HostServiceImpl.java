@@ -11,7 +11,9 @@ import java.util.List;
 @Service
 public class HostServiceImpl implements HostService {
 
-    private final HostRepository hostRepository;
+    private HostRepository hostRepository;
+
+    public HostServiceImpl() {}
 
     public HostServiceImpl(HostRepository hostRepository) {
         this.hostRepository = hostRepository;

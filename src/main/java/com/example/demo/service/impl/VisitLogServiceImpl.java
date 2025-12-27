@@ -16,9 +16,11 @@ import java.util.List;
 @Service
 public class VisitLogServiceImpl implements VisitLogService {
 
-    private final VisitLogRepository visitLogRepository;
-    private final VisitorRepository visitorRepository;
-    private final HostRepository hostRepository;
+    private VisitLogRepository visitLogRepository;
+    private VisitorRepository visitorRepository;
+    private HostRepository hostRepository;
+
+    public VisitLogServiceImpl() {}
 
     public VisitLogServiceImpl(VisitLogRepository visitLogRepository,
                                VisitorRepository visitorRepository,
@@ -37,28 +39,28 @@ public class VisitLogServiceImpl implements VisitLogService {
         Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
 
-        VisitLog visitLog = new VisitLog();
-        visitLog.setVisitor(visitor);
-        visitLog.setHost(host);
-        visitLog.setPurpose(purpose);
-        visitLog.setCheckInTime(LocalDateTime.now());
-        visitLog.setAccessGranted(true);
-        visitLog.setCheckedIn(true);
+        VisitLog log = new VisitLog();
+        log.setVisitor(visitor);
+        log.setHost(host);
+        log.setPurpose(purpose);
+        log.setCheckInTime(LocalDateTime.now());
+        log.setCheckedIn(true);
+        log.setAccessGranted(true);
 
-        return visitLogRepository.save(visitLog);
+        return visitLogRepository.save(log);
     }
 
     @Override
     public VisitLog checkOutVisitor(Long visitLogId) {
-        VisitLog visitLog = visitLogRepository.findById(visitLogId)
+        VisitLog log = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
-        if (!visitLog.isCheckedIn()) {
+        if (!log.isCheckedIn()) {
             throw new IllegalStateException("Cannot checkout without check-in");
         }
 
-        visitLog.setCheckOutTime(LocalDateTime.now());
-        return visitLogRepository.save(visitLog);
+        log.setCheckOutTime(LocalDateTime.now());
+        return visitLogRepository.save(log);
     }
 
     @Override
