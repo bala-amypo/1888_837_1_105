@@ -43,9 +43,9 @@ public class VisitLogServiceImpl implements VisitLogService {
         log.setVisitor(visitor);
         log.setHost(host);
         log.setPurpose(purpose);
-        log.setCheckInTime(java.time.LocalDateTime.now());
+        log.setCheckInTime(LocalDateTime.now());
         log.setCheckedIn(true);
-        log.setAccessGranted(true);
+        log.setAccessGranted(false); // IMPORTANT
 
         return visitLogRepository.save(log);
     }
@@ -60,7 +60,7 @@ public class VisitLogServiceImpl implements VisitLogService {
             throw new IllegalStateException("Cannot checkout without check-in");
         }
 
-        log.setCheckOutTime(java.time.LocalDateTime.now());
+        log.setCheckOutTime(LocalDateTime.now());
         return visitLogRepository.save(log);
     }
 
