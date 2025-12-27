@@ -28,25 +28,26 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.hostRepository = hostRepository;
     }
 
-    @Override
-    public Appointment createAppointment(Long visitorId, Long hostId, Appointment appointment) {
+   @Override
+public Appointment createAppointment(Long visitorId, Long hostId, Appointment appointment) {
 
-        if (appointment.getAppointmentDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Appointment date cannot be in the past");
-        }
-
-        Visitor visitor = visitorRepository.findById(visitorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
-
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
-
-        appointment.setVisitor(visitor);
-        appointment.setHost(host);
-        appointment.setStatus("SCHEDULED");
-
-        return appointmentRepository.save(appointment);
+    if (appointment.getAppointmentDate().isBefore(java.time.LocalDate.now())) {
+        throw new IllegalArgumentException("Appointment date cannot be in the past");
     }
+
+    Visitor visitor = visitorRepository.findById(visitorId)
+            .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+
+    Host host = hostRepository.findById(hostId)
+            .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
+
+    appointment.setVisitor(visitor);
+    appointment.setHost(host);
+    appointment.setStatus("SCHEDULED");
+
+    return appointmentRepository.save(appointment);
+}
+
 
     @Override
     public Appointment getAppointment(Long id) {
