@@ -28,10 +28,10 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
     @Override
     public AlertNotification sendAlert(Long visitLogId) {
 
-        VisitLog visitLog = visitLogRepository.findById(visitLogId)
+        VisitLog log = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
-        if (!visitLog.isCheckedIn()) {
+        if (!log.isCheckedIn()) {
             throw new IllegalStateException("Cannot send alert before check-in");
         }
 
@@ -40,10 +40,10 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
         }
 
         AlertNotification alert = new AlertNotification();
-        alert.setVisitLog(visitLog);
-        alert.setSentTo(visitLog.getHost().getEmail());
+        alert.setVisitLog(log);
+        alert.setSentTo(log.getHost().getEmail());
         alert.setAlertMessage("Visitor arrived");
-        alert.setSentAt(LocalDateTime.now());
+        alert.setSentAt(java.time.LocalDateTime.now());
 
         return alertRepository.save(alert);
     }

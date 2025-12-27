@@ -43,7 +43,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         log.setVisitor(visitor);
         log.setHost(host);
         log.setPurpose(purpose);
-        log.setCheckInTime(LocalDateTime.now());
+        log.setCheckInTime(java.time.LocalDateTime.now());
         log.setCheckedIn(true);
         log.setAccessGranted(true);
 
@@ -52,6 +52,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog checkOutVisitor(Long visitLogId) {
+
         VisitLog log = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
@@ -59,7 +60,7 @@ public class VisitLogServiceImpl implements VisitLogService {
             throw new IllegalStateException("Cannot checkout without check-in");
         }
 
-        log.setCheckOutTime(LocalDateTime.now());
+        log.setCheckOutTime(java.time.LocalDateTime.now());
         return visitLogRepository.save(log);
     }
 
