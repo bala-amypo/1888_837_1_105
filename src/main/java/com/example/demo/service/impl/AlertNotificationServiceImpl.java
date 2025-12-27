@@ -31,24 +31,19 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
         VisitLog log = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
-        // MUST allow alert only AFTER check-in
         if (!log.isCheckedIn()) {
             throw new IllegalStateException("Cannot send alert before check-in");
         }
 
-        // prevent duplicate alert
         if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
-            throw new IllegalStateException("Duplicate alert");
+            throw new IllegalArgumentException("Duplicate alert");
         }
 
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(log);
-        alert.setAlertMessage("Visitor arrived");
-        alert.setSentAt(LocalDateTime.now());
         alert.setSentTo(log.getHost().getEmail());
-
-        // mark visit as granted
-        log.setAccessGranted(true);
+        alert.setAlertMessage("Visitor arrived");
+        alert.setSentAt(java.time.LocalDateTime.now());
 
         return alertRepository.save(alert);
     }
