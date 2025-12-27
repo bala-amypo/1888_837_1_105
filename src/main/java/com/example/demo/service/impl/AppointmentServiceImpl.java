@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Appointment;
 import com.example.demo.model.Host;
 import com.example.demo.model.Visitor;
@@ -9,6 +10,7 @@ import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.AppointmentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,8 +32,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment createAppointment(Long visitorId, Long hostId, Appointment appointment) {
-        Visitor visitor = visitorRepository.findById(visitorId).orElse(null);
-        Host host = hostRepository.findById(hostId).orElse(null);
+
+        if (appointment.getAppointmentDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Appointment date cannot be in the past");
+        }
+
+        Visitor visitor = visitorRepository.findById(visitorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
 
         appointment.setVisitor(visitor);
         appointment.setHost(host);
@@ -42,7 +52,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment getAppointment(Long id) {
-        return appointmentRepository.findById(id).orElse(null);
+        return appointmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
     }
 
     @Override

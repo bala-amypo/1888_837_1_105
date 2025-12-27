@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Visitor;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
@@ -12,7 +13,6 @@ public class VisitorServiceImpl implements VisitorService {
 
     private VisitorRepository visitorRepository;
 
-    // REQUIRED FOR TESTS
     public VisitorServiceImpl() {}
 
     public VisitorServiceImpl(VisitorRepository visitorRepository) {
@@ -26,7 +26,8 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public Visitor getVisitor(Long id) {
-        return visitorRepository.findById(id).orElse(null);
+        return visitorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
     }
 
     @Override
