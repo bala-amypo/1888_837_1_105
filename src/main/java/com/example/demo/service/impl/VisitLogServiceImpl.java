@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.VisitLog;
 import com.example.demo.model.Visitor;
 import com.example.demo.model.Host;
@@ -31,21 +32,35 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog checkInVisitor(Long visitorId, Long hostId, String purpose) {
-        Visitor visitor = visitorRepository.findById(visitorId).orElse(null);
-        Host host = hostRepository.findById(hostId).orElse(null);
+
+        Visitor visitor = visitorRepository.findById(visitorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
 
         VisitLog visitLog = new VisitLog();
         visitLog.setVisitor(visitor);
         visitLog.setHost(host);
         visitLog.setPurpose(purpose);
+
         visitLog.setCheckInTime(LocalDateTime.now());
+        visitLog.setAccessGranted(true);
+        visitLog.setCheckedIn(true);
 
         return visitLogRepository.save(visitLog);
     }
 
     @Override
     public VisitLog checkOutVisitor(Long visitLogId) {
-        VisitLog visitLog = visitLogRepository.findById(visitLogId).orElse(null);
+
+        VisitLog visitLog = visitLogRepository.findById(visitLogId)
+                .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
+
+        if (!visitLog.isCheckedIn()) {
+            throw new IllegalStateException("Cannot checkout without check-in");
+        }
+
         visitLog.setCheckOutTime(LocalDateTime.now());
         return visitLogRepository.save(visitLog);
     }
@@ -57,6 +72,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog getVisitLog(Long id) {
-        return visitLogRepository.findById(id).orElse(null);
+        return visitLogRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
     }
 }
