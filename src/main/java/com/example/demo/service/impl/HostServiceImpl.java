@@ -29,6 +29,12 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
+    public Host getHostByEmail(String email) {
+        return hostRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Host not found"));
+    }
+
+    @Override
     public List<Host> getAllHosts() {
         return hostRepository.findAll();
     }
