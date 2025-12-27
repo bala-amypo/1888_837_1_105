@@ -19,14 +19,12 @@ public class VisitLog {
     private String purpose;
 
     private LocalDateTime checkInTime;
-
     private LocalDateTime checkOutTime;
 
     private boolean accessGranted;
+    private boolean checkedIn;
 
     public VisitLog() {}
-
-    // ---------- Getters & Setters ----------
 
     public Long getId() {
         return id;
@@ -76,11 +74,19 @@ public class VisitLog {
         this.checkOutTime = checkOutTime;
     }
 
-    public boolean getAccessGranted() {
+    public boolean isAccessGranted() {
         return accessGranted;
     }
 
     public void setAccessGranted(boolean accessGranted) {
         this.accessGranted = accessGranted;
+    }
+
+    public boolean isCheckedIn() {
+        return checkedIn;
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
     }
 }

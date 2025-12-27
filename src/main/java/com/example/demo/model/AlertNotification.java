@@ -17,6 +17,8 @@ public class AlertNotification {
     private String alertMessage;
     private LocalDateTime sentAt;
 
+    private boolean sent;
+
     public AlertNotification() {}
 
     public Long getId() {
@@ -57,5 +59,13 @@ public class AlertNotification {
 
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = sentAt;
+    }
+
+    public boolean isSent() {
+        return sent;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
     }
 }
